@@ -20,10 +20,12 @@ namespace WebPageAnalysis.Controllers
         }
 
         [HttpGet]
-        public async Task<IDictionary<string, int>> GetAsync(CancellationToken cancellationToken)
+        public async Task<IDictionary<string, int>> GetAsync(string word, CancellationToken cancellationToken)
         {
-
-            var word = ".jpg";
+            if (string.IsNullOrEmpty(word))
+            {
+                word = "на";
+            }
             string[] urls = { @"https://regnum.ru/foreign/balkans/serbia/belgrad", @"https://regnum.ru/foreign/balkans/serbia/belgrad", @"https://regnum.ru/foreign/balkans/serbia/belgrad" };
             var count = await _worker.CouuntWordAsync(urls, word, cancellationToken);
             await _wordCountRepository.UpdateAsync(word, count, cancellationToken);
